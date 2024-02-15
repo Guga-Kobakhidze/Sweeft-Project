@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import useRequest from "../../hooks/useRequest";
 import UserForms from "./UserForms";
-import useLocalStorage from "../../hooks/useLocalStorage";
 
 const Registration: React.FC = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -28,9 +27,6 @@ const Registration: React.FC = () => {
       console.error("Registration failed:", error);
     }
   };
-
-  const [userList] = useLocalStorage("userList", []);
-  console.log(userList);
 
   return (
     <UserForms

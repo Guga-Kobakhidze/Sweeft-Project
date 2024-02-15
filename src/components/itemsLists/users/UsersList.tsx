@@ -5,7 +5,7 @@ import { User } from "../../../interfaces/Interfaces";
 import useCookie from "../../../hooks/useCookie";
 import useItemLists from "../../../hooks/useItemLists";
 import AddNewItem from "../AddNewItem";
-import { UsersStyle } from "../../styles/usersListStyle";
+import { Buttons, UsersStyle } from "../../styles/usersListStyle";
 
 const UsersList: React.FC = () => {
   const apiEndpoint = "https://reqres.in/api/users?per_page=12";
@@ -61,8 +61,14 @@ const UsersList: React.FC = () => {
         <UserDetailsPage user={selectedUser} goBack={goBack} />
       ) : (
         <div>
-          {TOKEN && <button onClick={onClick}>Add new</button>}
-          <button onClick={tableView}>View Different Stage</button>
+          <Buttons>
+            {TOKEN ? (
+              <button onClick={onClick}>Add new</button>
+            ) : (
+              <div>log In for add new Users</div>
+            )}
+            <button onClick={tableView}>View Different Stage</button>
+          </Buttons>
           {newItem && (
             <AddNewItem
               itemColor={""}
@@ -89,14 +95,14 @@ const UsersList: React.FC = () => {
                 ))}
             </div>
           </UsersStyle>
-          <div>
+          <Buttons>
             <button onClick={prevPage} disabled={currentPage === 1}>
               Previous Page
             </button>
             <button onClick={nextPage} disabled={numberOfpages === currentPage}>
               Next Page
             </button>
-          </div>
+          </Buttons>
         </div>
       )}
     </div>

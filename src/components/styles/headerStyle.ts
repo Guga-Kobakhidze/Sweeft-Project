@@ -38,10 +38,8 @@ export const HeaderStyle = styled.div`
   .authorization {
     display: flex;
     align-items: center;
-    gap: 20px;
 
     button {
-      padding: 5px 20px;
       font-size: 18px;
       color: black;
       outline: none;

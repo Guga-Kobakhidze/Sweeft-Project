@@ -1,14 +1,13 @@
+export interface UseItemListProps {
+  apiEndpoint: string;
+}
+
 export interface Resource {
   id: number;
   name: string;
   year: number;
   color: string;
   pantone_value: string;
-}
-
-export interface UseRequestProps {
-  url: string;
-  method: string;
 }
 
 export interface User {
@@ -18,6 +17,11 @@ export interface User {
   avatar: string;
 }
 
+export interface UseRequestProps {
+  url: string;
+  method: string;
+}
+
 export interface UserFormProps {
   name: string;
   email: React.RefObject<HTMLInputElement>;
@@ -25,4 +29,34 @@ export interface UserFormProps {
   username: React.RefObject<HTMLInputElement>;
   loading: any;
   handleSubmit: (e: React.FormEvent) => void;
+}
+
+export interface ResourcesDetaiilsProps {
+  resource: Resource;
+  goBack: () => void;
+}
+
+export interface UserDetailsProps {
+  user: User;
+  goBack: () => void;
+}
+
+export interface AddNewItemsProps {
+  close: () => void;
+  itemAdd: (newItem: User) => void;
+  item: string;
+  itemTitle: string;
+  itemStatus: string;
+  itemColor: string;
+}
+
+export interface UseFetchResult {
+  fetchRequest: any | null;
+  error: Error | null;
+  loading: boolean;
+}
+
+export interface UseRequestResult {
+  loading: boolean;
+  sendRequest: (body?: any, custom?: string) => Promise<any>;
 }

@@ -43,6 +43,7 @@ export const UserForm = styled.div`
 
     button {
       padding: 10px 20px;
+      width: auto;
       background-color: gray;
       border: none;
       border-radius: 20px;

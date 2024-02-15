@@ -1,10 +1,5 @@
 import { useState } from "react";
-import { UseRequestProps } from "../interfaces/Interfaces";
-
-interface UseRequestResult {
-  loading: boolean;
-  sendRequest: (body?: any, custom?: string) => Promise<any>;
-}
+import { UseRequestProps, UseRequestResult } from "../interfaces/Interfaces";
 
 const useRequest = ({ url, method }: UseRequestProps): UseRequestResult => {
   const [loading, setLoading] = useState(false);

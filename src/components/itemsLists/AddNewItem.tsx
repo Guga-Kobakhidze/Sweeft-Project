@@ -1,18 +1,9 @@
 import React, { useRef } from "react";
-import { User } from "../../interfaces/Interfaces";
+import { AddNewItemsProps, User } from "../../interfaces/Interfaces";
 import useRequest from "../../hooks/useRequest";
-import { NewUser, Overlay } from "../styles/usersListStyle";
+import { NewItem, Overlay } from "../styles/usersListStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-
-interface AddNewItemsProps {
-  close: () => void;
-  itemAdd: (newItem: User) => void;
-  item: string;
-  itemTitle: string;
-  itemStatus: string;
-  itemColor: string;
-}
 
 const AddNewItem: React.FC<AddNewItemsProps> = ({
   close,
@@ -34,8 +25,11 @@ const AddNewItem: React.FC<AddNewItemsProps> = ({
   const inputTitle = itemTitle === "first_name" ? "First name" : "Resourses";
   const inputTitle2 = itemStatus === "email" ? "Email" : "Year";
   const inputTitle3 = itemColor === "color" ? "color" : "Age";
+  const inputTitle4 = item === "users" ? "User" : "Resource";
 
-  const handleAddItem = () => {
+  const handleAddItem = (e: React.FormEvent) => {
+    e.preventDefault();
+
     const AddUser = {
       id: Math.floor(Math.random() * 2000) + 1,
       [itemTitle]: itemTitleRef.current?.value,
@@ -55,12 +49,12 @@ const AddNewItem: React.FC<AddNewItemsProps> = ({
 
   return (
     <div>
-      <NewUser>
+      <NewItem>
         <div className="icon">
           <FontAwesomeIcon onClick={close} icon={faXmark} />
         </div>
-        <div>
-          <h1>Add New {item}</h1>
+        <form onSubmit={handleAddItem}>
+          <h1>Add New {inputTitle4}</h1>
           <div>
             <label htmlFor={itemTitle}>{inputTitle}:</label>
             <input
@@ -69,6 +63,7 @@ const AddNewItem: React.FC<AddNewItemsProps> = ({
               name={itemTitle}
               ref={itemTitleRef}
               value={itemTitleRef.current?.value}
+              required
             />
           </div>
           <div>
@@ -79,21 +74,23 @@ const AddNewItem: React.FC<AddNewItemsProps> = ({
               name={itemStatus}
               ref={itemStatusRef}
               value={itemStatusRef.current?.value}
+              required
             />
-            <div>
-              <label htmlFor={itemStatus}>{inputTitle3}:</label>
-              <input
-                type="text"
-                id={itemStatus}
-                name={itemColor}
-                ref={itemColorRef}
-                value={itemColorRef.current?.value}
-              />
-            </div>
-            <button onClick={handleAddItem}>Add {item}</button>
           </div>
-        </div>
-      </NewUser>
+          <div>
+            <label htmlFor={itemStatus}>{inputTitle3}:</label>
+            <input
+              type="text"
+              id={itemStatus}
+              name={itemColor}
+              ref={itemColorRef}
+              value={itemColorRef.current?.value}
+              required
+            />
+          </div>
+          <button type="submit">Add {inputTitle4}</button>
+        </form>
+      </NewItem>
       <Overlay onClick={close}></Overlay>
     </div>
   );

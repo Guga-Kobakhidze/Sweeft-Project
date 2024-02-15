@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Resource, User } from "../../../interfaces/Interfaces";
 import ResourcesDetails from "./ResourceDetails";
-import { UsersStyle } from "../../styles/usersListStyle";
+import { Buttons, UsersStyle } from "../../styles/usersListStyle";
 import useItemLists from "../../../hooks/useItemLists";
 import AddNewItem from "../AddNewItem";
 import useLocalStorage from "../../../hooks/useLocalStorage";
@@ -63,8 +63,14 @@ const ResourcesList: React.FC = () => {
         <ResourcesDetails resource={selectedResource} goBack={goBack} />
       ) : (
         <div>
-          {TOKEN && <button onClick={onClick}>Add new</button>}
-          <button onClick={tableView}>View Different Stage</button>
+          <Buttons>
+            {TOKEN ? (
+              <button onClick={onClick}>Add new</button>
+            ) : (
+              <div>log In for add New Resource</div>
+            )}
+            <button onClick={tableView}>View Different Stage</button>
+          </Buttons>
           {newItem && (
             <AddNewItem
               itemColor="color"
@@ -87,21 +93,23 @@ const ResourcesList: React.FC = () => {
                     <h2>{resource.name}</h2>
                     <p>{resource.year}</p>
                     <p>{resource.pantone_value}</p>
-                    <button onClick={() => onViewDetails(resource)}>
-                      See More
-                    </button>
+                    <div className="button">
+                      <button onClick={() => onViewDetails(resource)}>
+                        See More
+                      </button>
+                    </div>
                   </div>
                 ))}
             </div>
           </UsersStyle>
-          <div>
+          <Buttons>
             <button onClick={prevPage} disabled={currentPage === 1}>
               Previous Page
             </button>
             <button onClick={nextPage} disabled={numberOfpages === currentPage}>
               Next Page
             </button>
-          </div>
+          </Buttons>
         </div>
       )}
     </div>

@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { UseRequestProps } from "../interfaces/Interfaces";
-
-interface UseFetchResult {
-  fetchRequest: any | null;
-  error: Error | null;
-  loading: boolean;
-}
+import { UseFetchResult, UseRequestProps } from "../interfaces/Interfaces";
 
 const useFetch = ({ url, method }: UseRequestProps): UseFetchResult => {
   const [fetchRequest, setFetchRequest] = useState<any | null>(null);

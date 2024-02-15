@@ -1,9 +1,6 @@
 import { useState } from "react";
 import useFetch from "./useFetch";
-
-interface UseItemListProps {
-  apiEndpoint: string;
-}
+import { UseItemListProps } from "../interfaces/Interfaces";
 
 const useItemLists = ({ apiEndpoint }: UseItemListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,12 +20,12 @@ const useItemLists = ({ apiEndpoint }: UseItemListProps) => {
     setNewItem(false);
   };
 
-  const nextPage = () => {
-    setCurrentPage((prev) => prev + 1);
-  };
-
   const tableView = () => {
     setTableview((prev) => !prev);
+  };
+
+  const nextPage = () => {
+    setCurrentPage((prev) => prev + 1);
   };
 
   const prevPage = () => {

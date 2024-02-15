@@ -1,14 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import useRequest from "../../../hooks/useRequest";
 import useCookie from "../../../hooks/useCookie";
 import useLocalStorage from "../../../hooks/useLocalStorage";
-import { User } from "../../../interfaces/Interfaces";
-import { SubmitDelete } from "../../styles/usersListStyle";
-
-interface UserDetailsProps {
-  user: User;
-  goBack: () => void;
-}
+import { User, UserDetailsProps } from "../../../interfaces/Interfaces";
+import { Overlay, SubmitDelete } from "../../styles/usersListStyle";
 
 const UserDetailsPage: React.FC<UserDetailsProps> = ({ user, goBack }) => {
   const [userList, setUserList] = useLocalStorage("userList", []);
@@ -39,8 +34,8 @@ const UserDetailsPage: React.FC<UserDetailsProps> = ({ user, goBack }) => {
     const filteredList = userList.filter(
       (userDelete: User) => userDelete.id !== user.id
     );
-
     setUserList(filteredList);
+    setOnDelete(false);
     console.log(filteredList);
   };
 
@@ -61,6 +56,7 @@ const UserDetailsPage: React.FC<UserDetailsProps> = ({ user, goBack }) => {
       prev.map((edit: User) => (edit.id === user.id ? editedUser : edit))
     );
 
+    setEditMode(false);
     console.log(userList);
   };
 
@@ -80,23 +76,27 @@ const UserDetailsPage: React.FC<UserDetailsProps> = ({ user, goBack }) => {
         ) : (
           <div>Loading...</div>
         )}
-        {TOKEN && (
+        {TOKEN ? (
           <div>
             <button onClick={onEdit}>Edit</button>
             <button onClick={() => setOnDelete(true)} disabled={editMode}>
               Delete
             </button>
           </div>
+        ) : (
+          <div>log In to change details</div>
         )}
-
         {onDelete && (
-          <SubmitDelete>
-            <h2>Do you want Delete this ?</h2>
-            <div className="buttons">
-              <button onClick={userDelete}>Yes</button>
-              <button onClick={() => setOnDelete(false)}>No</button>
-            </div>
-          </SubmitDelete>
+          <div>
+            <SubmitDelete>
+              <h2>Do you really want to delete this?</h2>
+              <div className="buttons">
+                <button onClick={userDelete}>Yes</button>
+                <button onClick={() => setOnDelete(false)}>No</button>
+              </div>
+            </SubmitDelete>
+            <Overlay onClick={() => setOnDelete(false)}></Overlay>
+          </div>
         )}
       </div>
       {editMode && (
@@ -105,8 +105,14 @@ const UserDetailsPage: React.FC<UserDetailsProps> = ({ user, goBack }) => {
             type="text"
             ref={firstNameRef}
             defaultValue={user.first_name}
+            required
           />
-          <input type="email" ref={emailRef} defaultValue={user.email} />
+          <input
+            type="email"
+            ref={emailRef}
+            defaultValue={user.email}
+            required
+          />
           <button type="submit">Save</button>
         </form>
       )}

@@ -24,7 +24,7 @@ const Layout: React.FC = () => {
           <Route path="/register" element={<Registration />} />
           <Route path="/login" element={<Authorization />} />
         </Route>
-      </Routes>
+      </Routes> 
     </Router>
   );
 };

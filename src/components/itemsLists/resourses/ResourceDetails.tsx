@@ -1,14 +1,12 @@
 import React, { useRef, useState } from "react";
 import { UsersStyle } from "../../styles/usersListStyle";
-import { Resource } from "../../../interfaces/Interfaces";
+import {
+  Resource,
+  ResourcesDetaiilsProps,
+} from "../../../interfaces/Interfaces";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 import useCookie from "../../../hooks/useCookie";
 import useRequest from "../../../hooks/useRequest";
-
-interface ResourcesDetaiilsProps {
-  resource: Resource;
-  goBack: () => void;
-}
 
 const ResourcesDetails: React.FC<ResourcesDetaiilsProps> = ({
   resource,
@@ -16,8 +14,8 @@ const ResourcesDetails: React.FC<ResourcesDetaiilsProps> = ({
 }) => {
   const [resourceList, setResourceList] = useLocalStorage("resourceList", []);
   const [TOKEN] = useCookie("TOKEN", "");
-
   const [editMode, setEditMode] = useState(false);
+
   const { sendRequest } = useRequest({
     url: `https://reqres.in/api/unknown/${resource.id}`,
     method: "PATCH",
@@ -25,6 +23,7 @@ const ResourcesDetails: React.FC<ResourcesDetaiilsProps> = ({
 
   const nameRef = useRef<HTMLInputElement>(null);
   const yearRef = useRef<HTMLInputElement>(null);
+  const colorRef = useRef<HTMLInputElement>(null);
 
   const onEdit = () => {
     setEditMode((prev) => !prev);
@@ -37,6 +36,7 @@ const ResourcesDetails: React.FC<ResourcesDetaiilsProps> = ({
       id: resource.id,
       name: nameRef.current?.value || resource.name,
       year: yearRef.current?.value || resource.year,
+      color: colorRef.current?.value || resource.color,
     };
 
     sendRequest(editedUser)
@@ -49,6 +49,7 @@ const ResourcesDetails: React.FC<ResourcesDetaiilsProps> = ({
       )
     );
 
+    setEditMode(false);
     console.log(resourceList);
   };
 
@@ -71,15 +72,33 @@ const ResourcesDetails: React.FC<ResourcesDetaiilsProps> = ({
       ) : (
         <div>Loading...</div>
       )}
-      {TOKEN && (
+      {TOKEN ? (
         <div>
           <button onClick={onEdit}>Edit</button>
         </div>
+      ) : (
+        <div>log In to change details</div>
       )}
       {editMode && (
         <form onSubmit={onSubmit}>
-          <input type="text" ref={nameRef} defaultValue={resource.name} />
-          <input type="text" ref={yearRef} defaultValue={resource.year} />
+          <input
+            type="text"
+            ref={nameRef}
+            defaultValue={resource.name}
+            required
+          />
+          <input
+            type="text"
+            ref={yearRef}
+            defaultValue={resource.year}
+            required
+          />
+          <input
+            type="text"
+            ref={colorRef}
+            defaultValue={resource.color}
+            required
+          />
           <button type="submit">Save</button>
         </form>
       )}
